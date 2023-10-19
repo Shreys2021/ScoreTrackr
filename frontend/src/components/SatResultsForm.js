@@ -16,53 +16,59 @@ const SATResultsForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const satScoreValue = parseInt(satScore);
 
-        const passed = satScore > 30 ? 'Pass' : 'Fail';
+        if (satScoreValue >= 1 && satScoreValue <= 100) {
 
-        const formData = {
-            name,
-            address,
-            city,
-            country,
-            pincode,
-            satScore,
-            passed,
-        };
+            const passed = satScore > 30 ? 'Pass' : 'Fail';
 
-        fetch('http://localhost:8080/results', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
-        })
-            .then((response) => {
-                if (response.status === 409) {
+            const formData = {
+                name,
+                address,
+                city,
+                country,
+                pincode,
+                satScore,
+                passed,
+            };
 
-                    return response.text().then((text) => {
-                        setErrorMessage(text);
-                        throw new Error(text);
-                    });
-                } else {
-                    setErrorMessage('')
-                    return response.json();
-                }
+            fetch('http://localhost:8080/results', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
             })
-            .then((data) => {
-                console.log('Form Data:', data);
-                navigate(`/result/${name}`);
-                setName('');
-                setAddress('');
-                setCity('');
-                setCountry('');
-                setPincode('');
-                setSatScore('');
+                .then((response) => {
+                    if (response.status === 409) {
 
-            })
-            .catch((error) => console.error('Error:', error));
+                        return response.text().then((text) => {
+                            setErrorMessage(text);
+                            throw new Error(text);
+                        });
+                    } else {
+                        setErrorMessage('')
+                        return response.json();
+                    }
+                })
+                .then((data) => {
+                    console.log('Form Data:', data);
+                    navigate(`/result/${name}`);
+                    setName('');
+                    setAddress('');
+                    setCity('');
+                    setCountry('');
+                    setPincode('');
+                    setSatScore('');
 
-        console.log('Form Data:', formData)
-        console.log('result  :', passed)
+                })
+                .catch((error) => console.error('Error:', error));
+
+            console.log('Form Data:', formData)
+            console.log('result  :', passed)
+        } else {
+            setErrorMessage('SAT Score must be between 0 and 100 and ');
+        }
 
     };
 

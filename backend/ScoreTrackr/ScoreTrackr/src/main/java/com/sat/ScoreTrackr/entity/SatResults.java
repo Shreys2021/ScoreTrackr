@@ -33,10 +33,14 @@ public class SatResults {
     @Column(name = "result")
     private String result;
 
+    @Column(name = "candidateRank")
+    private int candidateRank;
+
+
     public SatResults() {
     }
 
-    public SatResults(String name, String address, String city, String country, String pincode, int satScore, String result) {
+    public SatResults(String name, String address, String city, String country, String pincode, int satScore, String result,int candidateRank) {
         this.name = name;
         this.address = address;
         this.city = city;
@@ -44,6 +48,7 @@ public class SatResults {
         this.pincode = pincode;
         this.satScore = satScore;
         this.result = result;
+        this.candidateRank = candidateRank;
     }
 
     public int getId() {
@@ -108,5 +113,28 @@ public class SatResults {
 
     public void setResult(String result) {
         this.result = result;
+    }
+
+    public int getCandidateRank() {
+        return candidateRank;
+    }
+
+    public void setCandidateRank(int candidateRank) {
+        this.candidateRank = candidateRank;
+    }
+
+    @Override
+    public String toString() {
+        return "SatResults{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", country='" + country + '\'' +
+                ", pincode='" + pincode + '\'' +
+                ", satScore=" + satScore +
+                ", result='" + result + '\'' +
+                ", candidateRank=" + candidateRank +
+                '}';
     }
 }

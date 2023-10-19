@@ -19,3 +19,40 @@
 .error-message {
     color: red;
 }
+
+.update-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.update-button:hover {
+    background-color: #0056b3;
+}
+
+.rank-button {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.rank-container {
+    margin-top: 20px;
+
+}
+
+
+.rank-container p {
+    font-weight: bold;
+    font-size: 16px;
+}

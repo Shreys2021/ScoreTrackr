@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PutMapping;
 
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -40,6 +41,8 @@ public ResponseEntity<?> saveSatResults(@RequestBody SatResults satResults) {
         int satScore = satResults.getSatScore();
         String result = (satScore > 30) ? "Pass" : "Fail";
         satResults.setResult(result);
+        int rank = calculateRankForNewResult(satScore);
+        satResults.setCandidateRank(rank);
         SatResults savedResult = scoreService.save(satResults);
 
         // Return a 201 Created status with the saved data
@@ -49,6 +52,32 @@ public ResponseEntity<?> saveSatResults(@RequestBody SatResults satResults) {
         return new ResponseEntity<>("Duplicate name is not allowed.", HttpStatus.CONFLICT);
     }
 }
+
+    private int calculateRankForNewResult(int newSatScore) {
+        List<SatResults> allResults = scoreService.findAll();
+        allResults.sort(Comparator.comparingInt(SatResults::getSatScore).reversed());
+
+        int rank = 1;
+        for (SatResults result : allResults) {
+            if (newSatScore < result.getSatScore()) {
+                rank++;
+            } else {
+                break;
+            }
+        }
+        return rank;
+    }
+
+    @GetMapping("/results/rank/{name}")
+    public ResponseEntity<Integer> getRankByName(@PathVariable String name) {
+        int rank = scoreService.getRankByName(name);
+
+        if (rank != -1) {
+            return ResponseEntity.ok(rank);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     @PutMapping("/results/update")
     @ResponseBody

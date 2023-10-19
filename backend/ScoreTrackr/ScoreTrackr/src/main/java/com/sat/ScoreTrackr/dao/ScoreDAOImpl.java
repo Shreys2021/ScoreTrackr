@@ -3,6 +3,7 @@ package com.sat.ScoreTrackr.dao;
 import com.sat.ScoreTrackr.entity.SatResults;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
+import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -71,5 +72,19 @@ public class ScoreDAOImpl implements  ScoreDAO {
         entityManager.createQuery("DELETE FROM SatResults s WHERE s.name = :name")
                 .setParameter("name", name)
                 .executeUpdate();
+    }
+
+    @Override
+    public int getRankByName(String name) {
+        // Create a JPQL query to retrieve the rank by name
+        Query query = entityManager.createQuery("SELECT s.candidateRank FROM SatResults s WHERE TRIM(s.name) = :name");
+        query.setParameter("name", name.trim());
+
+        try {
+            Integer rank = (Integer) query.getSingleResult();
+            return rank != null ? rank : -1; // Return -1 if the rank is not found
+        } catch (NoResultException e) {
+            return -1; // Return -1 if the candidate name is not found
+        }
     }
 }

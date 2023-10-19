@@ -14,4 +14,6 @@ public interface ScoreService {
     void deleteByName(String name);
 
     SatResults updateSatScore(String name, int newSatScore);
+
+    int getRankByName(String name);
 }

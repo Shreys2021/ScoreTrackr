@@ -32,9 +32,6 @@ button {
 
 .error-message {
     color: red;
-    /* Set the text color to red */
     font-weight: bold;
-    /* Make the text bold */
     margin-bottom: 10px;
-    /* Add some space below the error message */
 }

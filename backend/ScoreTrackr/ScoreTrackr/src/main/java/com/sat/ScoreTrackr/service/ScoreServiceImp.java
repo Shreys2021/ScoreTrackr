@@ -46,4 +46,8 @@ public class ScoreServiceImp implements ScoreService{
     @Override
     public SatResults updateSatScore(String name, int newSatScore){return scoreDAO.updateSatScore(name,newSatScore);}
 
+    @Transactional
+    @Override
+    public  int getRankByName(String name){return scoreDAO.getRankByName(name);}
+
 }
